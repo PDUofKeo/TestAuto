@@ -21,7 +21,7 @@ public class StepDefinitions {
 
     public static RemoteWebDriver driver;
 
-	@Given("^1_User is on Home Page$")
+	@Given("^User is on Home Page$")
 	public void user_is_on_Home_Page() throws Throwable {
 		ProfilesIni profile = new ProfilesIni();
 		FirefoxProfile myprofile = profile.getProfile("QA");
@@ -34,29 +34,29 @@ public class StepDefinitions {
 		driver.get("https://cati-test.imagys.com");
 	}
 
-	@When("^1_User enters UserName and Password$")
+	@When("^User enters UserName and Password$")
 	public void user_enters_UserName_and_Password() throws Throwable {
 		driver.findElement(By.name("login")).sendKeys("sysadmin");
 		driver.findElement(By.name("password")).sendKeys("keosys");
 		driver.findElement(By.xpath(".//*[@id='principal_zone']/fieldset/form/ol/li[3]/div/a/span/span")).click();
 	}
 
-	@Then("^1_Message displayed Login Successfully$")
+	@Then("^Message displayed Login Successfully$")
 	public void message_displayed_Login_Successfully() throws Throwable {
 		System.out.println("Login Successfully");
 	}
 
-	@When("^1_User LogOut from the Application$")
+	@When("^User LogOut from the Application$")
 	public void user_LogOut_from_the_Application() throws Throwable {
 		driver.findElement(By.xpath(".//*[@id='account_logout']/a")).click();
 	}
 
-	@Then("^1_Message displayed LogOut Successfully$")
+	@Then("^Message displayed LogOut Successfully$")
 	public void message_displayed_Logout_Successfully() throws Throwable {
 		System.out.println("LogOut Successfully");
 	}
 
-	@Then("^1_IC is displayed$")
+	@Then("^IC is displayed$")
 	public void IC_is_displayed() throws Throwable {
 		WebDriverWait wait = new WebDriverWait(driver, 80);
 		wait.until(ExpectedConditions.elementToBeClickable(By.id("tab_logout'")));
@@ -64,7 +64,7 @@ public class StepDefinitions {
 	}
 
 	
-	@Given("^1_User is connected$")
+	@Given("^User is connected$")
 	public void User_is_connected() throws Throwable {
 
 		WebDriverWait wait = new WebDriverWait(driver, 15);
