@@ -1,71 +1,138 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-  <groupId>TestAuto.imagys.com</groupId>
-  <artifactId>TestAuto</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>war</packaging>
+	<groupId>TestAuto.imagys.com</groupId>
+	<artifactId>TestAuto</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
 
-  <name>TestAuto</name>
-  <url>http://maven.apache.org</url>
+	<name>TestAuto</name>
+	<url>http://maven.apache.org</url>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 
-  <build>
-	<plugins>
-		<plugin>
-			<groupId>net.masterthought</groupId>
-			<artifactId>maven-cucumber-reporting</artifactId>
-			<version>0.0.3</version>
-			<executions>
-				<execution>
-					<id>execution</id>
-					<phase>verify</phase>
-					<goals>
-						<goal>generate</goal>
-					</goals>
-					<configuration>
-						<projectname>TestProject</projectname>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.19.1</version>
+				<configuration>
+					<rerunFailingTestsCount>1</rerunFailingTestsCount>
+					<!-- <properties> <property> <name>surefire.testng.verbose</name> <value>10</value> 
+						</property> </properties> -->
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-report-plugin</artifactId>
+						<version>2.19.1</version>
+					</dependency>
+					<dependency>
+						<groupId>org.apache.Maven.surefire</groupId>
+						<artifactId>surefire-junit47</artifactId>
+						<version>2.19.1</version>
+					</dependency>
+					<dependency>
+						<groupId>org.apache.maven.surefire</groupId>
+						<artifactId>surefire-testng</artifactId>
+						<version>2.19.1</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>2.19.1</version>
+				<executions>
+					<execution>
+						<id>integration-tests</id>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+						<configuration>
+							<rerunFailingTestsCount>1</rerunFailingTestsCount>
+							<skip>false</skip>
+							<parallel>methods</parallel>
+							<threadcount>1</threadcount>
+							<percorethreadcount>false</percorethreadcount>
+							<useunlimitedthreads>false</useunlimitedthreads>
+							<argline>-Xmx128m -XX:MaxPermSize=128m</argline>
+							<includes>
+								<include>**/*</include>
+							</includes>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 
-						<outputdirectory>${project.build.directory}/cucumber-html-reports</outputdirectory>
 
-						<cucumberoutput>${project.build.directory}/target/cucumber.json</cucumberoutput>
-						<enableflashcharts></enableflashcharts>
-					</configuration>
-				</execution>
-			</executions>
 
-		</plugin>
-
-	</plugins>
-</build>
+			<plugin>
+				<groupId>net.masterthought</groupId>
+				<artifactId>maven-cucumber-reporting</artifactId>
+				<version>2.5.0</version>
+				<executions>
+					<execution>
+						<id>execution</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<projectname>TestAuto</projectname>
+							<outputdirectory>${project.build.directory}/cucumber-html-reports</outputdirectory>
+							<cucumberoutput>${project.build.directory}/target/cucumber.json</cucumberoutput>
+							<enableflashcharts></enableflashcharts>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 
 	<dependencies>
 		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>6.9.10</version>
+		</dependency>
+		<dependency>
 			<groupId>info.cukes</groupId>
 			<artifactId>cucumber-picocontainer</artifactId>
-			<version>1.1.5</version>
+			<version>1.2.4</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>info.cukes</groupId>
+			<artifactId>cucumber-java</artifactId>
+			<version>1.2.4</version>
+		</dependency>
+		<dependency>
+			<groupId>info.cukes</groupId>
 			<artifactId>cucumber-junit</artifactId>
-			<version>1.1.5</version>
+			<version>1.2.4</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.11</version>
+			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
 			<version>2.53.0</version>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.35</version>
 		</dependency>
 	</dependencies>
 </project>
