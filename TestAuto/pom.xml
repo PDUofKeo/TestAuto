@@ -21,10 +21,17 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.19.1</version>
 				<configuration>
-					<rerunFailingTestsCount>1</rerunFailingTestsCount>
-					<!-- <properties> <property> <name>surefire.testng.verbose</name> <value>10</value> 
-						</property> </properties> -->
-				</configuration>
+ 						<rerunFailingTestsCount>1</rerunFailingTestsCount> 
+							<skip>false</skip>
+							<parallel>methods</parallel>
+							<threadCount>1</threadCount>
+							<percorethreadcount>false</percorethreadcount>
+							<useunlimitedthreads>false</useunlimitedthreads>
+							<argline>-Xmx128m -XX:MaxPermSize=128m</argline>
+							<includes>
+								<include>**/*</include>
+							</includes>
+						</configuration>
 				<dependencies>
 					<dependency>
 						<groupId>org.apache.maven.plugins</groupId>
@@ -32,7 +39,7 @@
 						<version>2.19.1</version>
 					</dependency>
 					<dependency>
-						<groupId>org.apache.Maven.surefire</groupId>
+						<groupId>org.apache.maven.surefire</groupId>
 						<artifactId>surefire-junit47</artifactId>
 						<version>2.19.1</version>
 					</dependency>
@@ -54,18 +61,7 @@
 							<goal>integration-test</goal>
 							<goal>verify</goal>
 						</goals>
-						<configuration>
-							<rerunFailingTestsCount>1</rerunFailingTestsCount>
-							<skip>false</skip>
-							<parallel>methods</parallel>
-							<threadcount>1</threadcount>
-							<percorethreadcount>false</percorethreadcount>
-							<useunlimitedthreads>false</useunlimitedthreads>
-							<argline>-Xmx128m -XX:MaxPermSize=128m</argline>
-							<includes>
-								<include>**/*</include>
-							</includes>
-						</configuration>
+						
 					</execution>
 				</executions>
 			</plugin>
