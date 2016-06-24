@@ -1,11 +1,7 @@
 package testauto;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Logger;
 
 import org.openqa.selenium.By;
@@ -14,8 +10,6 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-
-import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 
 import Util.UtilTools;
 import cucumber.api.Scenario;
@@ -56,32 +50,26 @@ public class StepDefinitions extends SharedDriver {
 	public static String PASSWORD_BYNAME = "password";
 	public static String LOGIN_BTN_XPATH = ".//*[@id='principal_zone']/fieldset/form/ol/li[3]/div/a/span/span";
 
+	
+	@Before
+	public void keepScenario(Scenario scenario) throws SQLException {
+		StepDefinitions.setScenario(scenario);
+	}
+	
+	@Then("^Close the WebBrowser$")
+	public void Close(){
+		driver.quit();
+	}
+	
+	
 	@Given("^User is on Home Page$")
 	public void User_is_on_Home_Page() throws Throwable {
 		LOGGER.info("Open web driver");
 	}
 
-	@Before
-	public void keepScenario(Scenario scenario) throws SQLException {
-		StepDefinitions.scenario = scenario;
-
-		MysqlDataSource dataSource = new MysqlDataSource();
-		dataSource.setUser("root");
-		dataSource.setPassword("chicxulub");
-		dataSource.setServerName("kam-test-db.keosys.local");
-		Connection conn;
-		conn = dataSource.getConnection();
-		Statement stmt = conn.createStatement();
-		ResultSet rs = stmt.executeQuery("SELECT ID FROM cati_imagys.USER");
-		if (rs.next()) {
-			LOGGER.info(String.format("Display %d,", rs.getInt("ID")));
-		}
-
-		rs.close();
-		stmt.close();
-		conn.close();
-
-	}
+	
+	
+	
 
 	@When("^User enters UserName and Password$")
 	public void user_enters_UserName_and_Password(List<Credentials> usercredentials) throws Throwable {
@@ -91,7 +79,7 @@ public class StepDefinitions extends SharedDriver {
 			driver.findElement(By.xpath(LOGIN_BTN_XPATH)).click();
 			LOGGER.info("User: " + credential.getUsername());
 			LOGGER.info("Password: " + credential.getPassword());
-			scenario.write(scenario.getName() + ": " + Thread.currentThread().getStackTrace()[1].getMethodName());
+			getScenario().write(getScenario().getName() + ": " + Thread.currentThread().getStackTrace()[1].getMethodName());
 		}
 	}
 
@@ -111,7 +99,7 @@ public class StepDefinitions extends SharedDriver {
 		driver.findElement(By.name(LOGIN_BYNAME)).sendKeys(Username);
 		driver.findElement(By.name(PASSWORD_BYNAME)).sendKeys(Password);
 		driver.findElement(By.xpath(LOGIN_BTN_XPATH)).click();
-		scenario.write(scenario.getName() + ": " + Thread.currentThread().getStackTrace()[1].getMethodName());
+		getScenario().write(getScenario().getName() + ": " + Thread.currentThread().getStackTrace()[1].getMethodName());
 	}
 
 	@When("^User LogOut from the Application$")
@@ -548,19 +536,19 @@ public class StepDefinitions extends SharedDriver {
 
 	@Then("^User clicks on the controller tab$")
 	public static void Users_Cliks_on_the_controller_tab() throws Throwable {
-		scenario.write(scenario.getName() + ": " + Thread.currentThread().getStackTrace()[1].getMethodName());
+		getScenario().write(getScenario().getName() + ": " + Thread.currentThread().getStackTrace()[1].getMethodName());
 		UserPage.ClickOntheControllerTab();
 	}
 
 	@Then("^User clicks on the reader tab$")
 	public static void User_clicks_on_the_reader_tab() throws Throwable {
-		scenario.write(scenario.getName() + ": " + Thread.currentThread().getStackTrace()[1].getMethodName());
+		getScenario().write(getScenario().getName() + ": " + Thread.currentThread().getStackTrace()[1].getMethodName());
 		UserPage.ClickOntheReaderTab();
 	}
 
 	@Then("^User clicks on the Adjudicator tab$")
 	public static void User_clicks_on_the_Adjudicator_tab() throws Throwable {
-		scenario.write(scenario.getName() + ": " + Thread.currentThread().getStackTrace()[1].getMethodName());
+		getScenario().write(getScenario().getName() + ": " + Thread.currentThread().getStackTrace()[1].getMethodName());
 		UserPage.ClickOntheAdjudicatorTab();
 	}
 	
@@ -574,7 +562,7 @@ public class StepDefinitions extends SharedDriver {
 
 	@Then("^User clicks on the Supervisor tab$")
 	public static void Users_Cliks_on_the_supervisor_tab() throws Throwable {
-		scenario.write(scenario.getName() + ": " + Thread.currentThread().getStackTrace()[1].getMethodName());
+		getScenario().write(getScenario().getName() + ": " + Thread.currentThread().getStackTrace()[1].getMethodName());
 		UserPage.ClickOntheSupervisorTab();
 	}
 
@@ -680,6 +668,22 @@ public class StepDefinitions extends SharedDriver {
 	@When("^User validates the Form deletion$")
 	public static void User_validates_the_form_deletion() throws Throwable {
 		UtilTools.clickOnButton(Entity.REASON_DELETED_ENTITY_OK_BTN_XPATH);
+	}
+
+
+
+
+
+	public static Scenario getScenario() {
+		return scenario;
+	}
+
+
+
+
+
+	public static void setScenario(Scenario scenario) {
+		StepDefinitions.scenario = scenario;
 	}
 
 }
