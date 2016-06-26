@@ -43,8 +43,6 @@ public class UserPage extends SharedDriver {
 			Assert.fail();
 		}
 
-		/*if (null != driver)
-			driver.quit();*/
 	}
 
 	public static void CheckUserIsConnected() throws Throwable {

@@ -240,9 +240,8 @@ public class UtilTools extends SharedDriver {
 
 		while (attempts < 2) {
 			try {
-				driver.findElement(by);
-				LOGGER.info(String.format("retrying find element N°: '%d' for xpath: %s", attempts, by.toString()));
-				result = driver.findElement(by);
+				result=driver.findElement(by);
+				LOGGER.info(String.format("retrying find click N°: '%d' for xpath: %s", attempts, by.toString()));
 				break;
 			} catch (StaleElementReferenceException e) {
 				LOGGER.severe(String.format("StaleElementReferenceException: '%s'", e.getMessage()));
@@ -280,12 +279,16 @@ public class UtilTools extends SharedDriver {
 	
 
 	public static boolean checkImageIsDisplayed(String xpath, String ImgStyle) {
+		
+		
+		LOGGER.info("xpath : "+"'"+ xpath + "'");
+		LOGGER.info("ImgStyle : "+"'"+ ImgStyle + "'");
 
 		try {
 			WebDriverWait wait = new WebDriverWait(driver, TIMEOUT);
 			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpath)));
 		} catch (StaleElementReferenceException e) {
-			LOGGER.severe(String.format("timeout ('%d' s) reached for xpath='%s'", TIMEOUT, xpath));
+			LOGGER.severe(String.format("Timeout ('%d' s) reached for xpath='%s'", TIMEOUT, xpath));
 			return false;
 		}
 
@@ -298,14 +301,15 @@ public class UtilTools extends SharedDriver {
 			LOGGER.severe(String.format("StaleElementReferenceException: '%s'", e.getMessage()));
 			return false;
 		}
-
-				
-		if (WebElt.getAttribute("style").equals(ImgStyle)) {
+		
+		String img = WebElt.getAttribute("style").toString();
+						
+		if (img.equals(ImgStyle)) {
 			LOGGER.info(String.format("Success: The style '%s' of the image xpath '%s' is DISPLAYED", ImgStyle, xpath));
 			return true;
 		} else {
 			LOGGER.severe(
-					String.format("failed: The style '%s' of the image xpath '%s' IS NOT DISPLAYED", ImgStyle, xpath));
+					String.format("Failed: The searched style '%s' of the image xpath '%s' IS NOT DISPLAYED. The finded string is : '%s'", ImgStyle, xpath, img));
 			return false;
 		}
 	}

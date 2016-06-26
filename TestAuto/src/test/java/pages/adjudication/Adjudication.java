@@ -25,7 +25,7 @@ public abstract class Adjudication extends SharedDriver {
 	private static final String ADJUDICATION_FORM_VALIDATED_TITLE_XPATH = ".//*[@id='tab-adjudication']/table/tbody/tr[1]/td";
 
 	private static final String FMT_ADJUDICATION_TREE_FLAG_VISIT_XPATH = "//li[@title='%s']/ul/li/a[contains(text(),'%s')]/following::ins[1]";
-	private static final String ADJUDICATION_TREE_FLAG_VISIT_ADJUDICATED_STYLE = "//li[@title='%s']/ul/li/a[contains(text(),'%s')]/following::ins[1]";
+	private static final String ADJUDICATION_TREE_FLAG_VISIT_ADJUDICATED_STYLE = "background: rgb(131, 159, 196) url(\"js/themes/icon/ok16.png\") no-repeat scroll center center;";
 	
 
 	public static void checkForm() throws Throwable {

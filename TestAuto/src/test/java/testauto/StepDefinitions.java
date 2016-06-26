@@ -50,26 +50,20 @@ public class StepDefinitions extends SharedDriver {
 	public static String PASSWORD_BYNAME = "password";
 	public static String LOGIN_BTN_XPATH = ".//*[@id='principal_zone']/fieldset/form/ol/li[3]/div/a/span/span";
 
-	
 	@Before
 	public void keepScenario(Scenario scenario) throws SQLException {
 		StepDefinitions.setScenario(scenario);
 	}
-	
+
 	@Then("^Close the WebBrowser$")
-	public void Close(){
+	public void Close() {
 		driver.quit();
 	}
-	
-	
+
 	@Given("^User is on Home Page$")
 	public void User_is_on_Home_Page() throws Throwable {
 		LOGGER.info("Open web driver");
 	}
-
-	
-	
-	
 
 	@When("^User enters UserName and Password$")
 	public void user_enters_UserName_and_Password(List<Credentials> usercredentials) throws Throwable {
@@ -79,23 +73,24 @@ public class StepDefinitions extends SharedDriver {
 			driver.findElement(By.xpath(LOGIN_BTN_XPATH)).click();
 			LOGGER.info("User: " + credential.getUsername());
 			LOGGER.info("Password: " + credential.getPassword());
-			getScenario().write(getScenario().getName() + ": " + Thread.currentThread().getStackTrace()[1].getMethodName());
+			getScenario()
+					.write(getScenario().getName() + ": " + Thread.currentThread().getStackTrace()[1].getMethodName());
 		}
 	}
 
 	@When("^User enters UserName: \"([^\"]*)\" and Password: \"([^\"]*)\"$")
 	public void User_enters_UserName_and_Password(String Username, String Password) throws Throwable {
-		
+
 		long timeout = 15;
-		
+
 		try {
-		WebDriverWait wait = new WebDriverWait(driver, 15);
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.name(LOGIN_BYNAME)));
+			WebDriverWait wait = new WebDriverWait(driver, 15);
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.name(LOGIN_BYNAME)));
 		} catch (Exception e) {
 			LOGGER.severe(String.format("timeout: '%d' s reached for name:'%s'", timeout, LOGIN_BYNAME));
 			Assert.fail();
 		}
-			
+
 		driver.findElement(By.name(LOGIN_BYNAME)).sendKeys(Username);
 		driver.findElement(By.name(PASSWORD_BYNAME)).sendKeys(Password);
 		driver.findElement(By.xpath(LOGIN_BTN_XPATH)).click();
@@ -112,6 +107,7 @@ public class StepDefinitions extends SharedDriver {
 	public void User_is_connected() throws Throwable {
 
 		// If IC is not working an alert message is displayed
+
 		try {
 			Thread.sleep(5000);
 			driver.switchTo().alert().accept();
@@ -119,30 +115,10 @@ public class StepDefinitions extends SharedDriver {
 			LOGGER.info("Alert message may be not present");
 		}
 		
-//		String mainWindow = driver.getWindowHandle();
-//		LOGGER.info("------------- " + mainWindow);
-//        Set<String> windows= driver.getWindowHandles();
-//        if (windows.size() > 1) {
-//            //first remove main window
-//        	LOGGER.info(">>>>>>>>>> " + windows);
-//            windows.remove(mainWindow);
-//            //switching to new/child window and perform some action on new window if required. Then close it.
-//            driver.switchTo().window(windows.iterator().next());
-//            driver.close();
-//            //switching back to mainWindow, Then continue with your actions.
-//            driver.switchTo().window(mainWindow);
-//            windows.clear();
-//            
-//        }
-//		
-		
-
 		UserPage.CheckUserIsConnected();
-		// If IC is not working an alert message is displayed
-
+	
 		// TODO
 		// to check the user is connected check is name and firstName
-
 	}
 
 	@Then("^User is disconnected$")
@@ -228,7 +204,7 @@ public class StepDefinitions extends SharedDriver {
 
 	@When("^User selects a visit: \"([^\"]*)\"$")
 	public void User_selects_a_visit(String visit) throws Throwable {
-		long timeout = 2;
+		long timeout = 5;
 		WebDriverWait wait = new WebDriverWait(driver, timeout);
 		try {
 			wait.until(
@@ -397,29 +373,26 @@ public class StepDefinitions extends SharedDriver {
 	public static void Click_on_Reading_tab() throws Throwable {
 		Results.SupervisorClicksOnReadingTab();
 	}
-	
+
 	@When("^Click on Adjudication tab$")
 	public static void Click_on_Adjudication_tab() throws Throwable {
 		Results.SupervisorClicksOnAdjudicationTab();
 	}
-		
-	
+
 	@Then("^INV form is displayed for \"([^\"]*)\" and \"([^\"]*)\"$")
 	public static void INV_form_is_displayed(String Patient, String Visit) throws Throwable {
 		pages.supervision.details.results.investigation.Investigation.PageDetails(Patient, Visit);
 	}
-	
+
 	@Then("^Reading form is displayed for \"([^\"]*)\" and \"([^\"]*)\"$")
 	public static void Reading_form_is_displayed(String Patient, String Visit) throws Throwable {
 		pages.supervision.details.results.reading.Reading.PageDetailsWhen2Readings(Patient, Visit);
 	}
-	
-	
+
 	@Then("^Adjudication form is displayed for \"([^\"]*)\" and \"([^\"]*)\"$")
 	public static void Adjudication_form_is_displayed(String Patient, String Visit) throws Throwable {
 		pages.supervision.details.results.adjudication.Adjudication.PageDetails(Patient, Visit);
 	}
-	
 
 	@When("^Click on delete QC button$")
 	public static void Click_on_delete_QC_button() throws Throwable {
@@ -431,13 +404,13 @@ public class StepDefinitions extends SharedDriver {
 		UtilTools.clickOnButton(
 				pages.supervision.details.results.investigation.Investigation.RESULTS_INV_DELETE_BTN_XPATH);
 	}
-	
+
 	@When("^Click on delete Reading button$")
 	public static void Click_on_delete_Reading_button() throws Throwable {
 		UtilTools.clickOnButton(
 				pages.supervision.details.results.reading.Reading.RESULTS_READING_SECOND_DELETE_BTN_XPATH);
 	}
-	
+
 	@When("^Click on delete Adjudication button$")
 	public static void Click_on_delete_Adjudication_button() throws Throwable {
 		UtilTools.clickOnButton(
@@ -450,7 +423,6 @@ public class StepDefinitions extends SharedDriver {
 
 	}
 
-	
 	@Then("^QC results page is empty$")
 	public static void QC_results_page_is_empty() throws Throwable {
 		click_On_Results_button();
@@ -474,7 +446,7 @@ public class StepDefinitions extends SharedDriver {
 			Assert.fail();
 		}
 	}
-	
+
 	@Then("^Second Reading form results is deleted$")
 	public static void Reading_results_page_is_empty() throws Throwable {
 		click_On_Results_button();
@@ -486,8 +458,7 @@ public class StepDefinitions extends SharedDriver {
 			Assert.fail();
 		}
 	}
-	
-	
+
 	@Then("^Adjudication form results is deleted$")
 	public static void Adjudication_results_page_is_empty() throws Throwable {
 		click_On_Results_button();
@@ -499,10 +470,6 @@ public class StepDefinitions extends SharedDriver {
 			Assert.fail();
 		}
 	}
-	
-	
-	
-	
 
 	@Given("^Default filter is displayed$")
 	public static void Default_filter_is_displayed() throws Throwable {
@@ -528,7 +495,7 @@ public class StepDefinitions extends SharedDriver {
 	public static void Reader_tab_is_displayed() throws Throwable {
 		UserPage.CheckReaderTabIsDisplayed();
 	}
-	
+
 	@Given("^Adjudicator tab is displayed$")
 	public static void Adjudication_tab_is_displayed() throws Throwable {
 		UserPage.CheckAdjudicatorTabIsDisplayed();
@@ -551,10 +518,7 @@ public class StepDefinitions extends SharedDriver {
 		getScenario().write(getScenario().getName() + ": " + Thread.currentThread().getStackTrace()[1].getMethodName());
 		UserPage.ClickOntheAdjudicatorTab();
 	}
-	
-	
-	
-	
+
 	@Given("^Supervisor tab is displayed$")
 	public static void Supervisor_tab_is_displayed() throws Throwable {
 		UserPage.CheckSupervisorTabIsDisplayed();
@@ -581,7 +545,7 @@ public class StepDefinitions extends SharedDriver {
 		// Patient tree is displayed
 		LOGGER.info("Reader screen is displayed");
 	}
-	
+
 	@Then("^Adjudicator screen is displayed$")
 	public static void Adjudicator_tree_is_displayed() throws Throwable {
 		// TODO
@@ -589,8 +553,6 @@ public class StepDefinitions extends SharedDriver {
 		// Patient tree is displayed
 		LOGGER.info("Adjudicator screen is displayed");
 	}
-	
-	
 
 	@Then("^Basic Upload form is displayed$")
 	public static void Basic_Upload_form_is_displayed() throws Throwable {
@@ -601,12 +563,11 @@ public class StepDefinitions extends SharedDriver {
 	public static void Basic_Reading_form_is_displayed() throws Throwable {
 		Reading.CheckForm();
 	}
-	
+
 	@Then("^Basic Adjudication form is displayed$")
 	public static void Basic_Adjudicator_form_is_displayed() throws Throwable {
 		Adjudication.checkForm();
 	}
-	
 
 	@When("^User validates the INV form$")
 	public static void User_validates_the_INV_form() throws Throwable {
@@ -617,7 +578,7 @@ public class StepDefinitions extends SharedDriver {
 	public static void User_validates_the_reader_form() throws Throwable {
 		Reading.ValidateTheForm();
 	}
-	
+
 	@When("^User validates the Adjudication form$")
 	public static void Adjudication_validates_the_Adjudication_form() throws Throwable {
 		Adjudication.ValidateTheForm();
@@ -634,7 +595,7 @@ public class StepDefinitions extends SharedDriver {
 		UtilTools.seFilterToAll();
 		Adjudication.FormIsValidated();
 	}
-	
+
 	@Then("^INV form is validated$")
 	public static void INV_form_is_validated() throws Throwable {
 		Investigation.InvestigationformIsValidated();
@@ -664,23 +625,14 @@ public class StepDefinitions extends SharedDriver {
 		}
 	}
 
-	
 	@When("^User validates the Form deletion$")
 	public static void User_validates_the_form_deletion() throws Throwable {
 		UtilTools.clickOnButton(Entity.REASON_DELETED_ENTITY_OK_BTN_XPATH);
 	}
 
-
-
-
-
 	public static Scenario getScenario() {
 		return scenario;
 	}
-
-
-
-
 
 	public static void setScenario(Scenario scenario) {
 		StepDefinitions.scenario = scenario;

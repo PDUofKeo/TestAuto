@@ -18,69 +18,15 @@
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-report-plugin</artifactId>
-				<version>2.19.1</version>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.19.1</version>
-				<configuration>
-					<rerunFailingTestsCount>0</rerunFailingTestsCount>
-					<skip>false</skip>
-					<forkCount>0</forkCount>
-					<!-- <parallel>methods</parallel> -->
-					<threadCount>1</threadCount>
-					<percorethreadcount>false</percorethreadcount>
-					<useunlimitedthreads>false</useunlimitedthreads>
-					<argline>-Xmx128m -XX:MaxPermSize=128m</argline>
-					<includes>
-						<include>**/*</include>
-					</includes>
-				</configuration>
 				<dependencies>
-<!-- 					<dependency> -->
-<!-- 						<groupId>org.apache.maven.plugins</groupId> -->
-<!-- 						<artifactId>maven-surefire-report-plugin</artifactId> -->
-<!-- 						<version>2.19.1</version> -->
-<!-- 					</dependency> -->
-<!-- 					<dependency> -->
-<!-- 						<groupId>org.apache.maven.surefire</groupId> -->
-<!-- 						<artifactId>surefire-junit47</artifactId> -->
-<!-- 						<version>2.19.1</version> -->
-<!-- 					</dependency> -->
-<!-- 					<dependency> -->
-<!-- 						<groupId>org.apache.maven.surefire</groupId> -->
-<!-- 						<artifactId>surefire-testng</artifactId> -->
-<!-- 						<version>2.19.1</version> -->
-<!-- 					</dependency> -->
+					<dependency>
+						<groupId>org.apache.maven.surefire</groupId>
+						<artifactId>surefire-junit47</artifactId>
+						<version>2.19.1</version>
+					</dependency>
 				</dependencies>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-failsafe-plugin</artifactId>
-				<version>2.19.1</version>
-				<executions>
-					<execution>
-						<id>integration-tests</id>
-						<goals>
-							<goal>integration-test</goal>
-							<goal>verify</goal>
-						</goals>
-						<configuration>
-							<rerunFailingTestsCount>1</rerunFailingTestsCount>
-							<skip>false</skip>
-							<parallel>methods</parallel>
-							<threadcount>1</threadcount>
-							<percorethreadcount>false</percorethreadcount>
-							<useunlimitedthreads>false</useunlimitedthreads>
-							<argline>-Xmx128m -XX:MaxPermSize=128m</argline>
-							<includes>
-								<include>**/*</include>
-							</includes>
-						</configuration>
-					</execution>
-				</executions>
 			</plugin>
 
 			<plugin>
@@ -98,7 +44,7 @@
 							<projectname>TestAuto</projectname>
 							<outputdirectory>${project.build.directory}/cucumber-html-reports</outputdirectory>
 							<cucumberoutput>${project.build.directory}/target/cucumber.json</cucumberoutput>
-							<enableflashcharts></enableflashcharts>
+							<enableflashcharts>true</enableflashcharts>
 						</configuration>
 					</execution>
 				</executions>

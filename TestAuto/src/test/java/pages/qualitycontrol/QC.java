@@ -46,10 +46,10 @@ public class QC extends SharedDriver {
 	// OK
 	public static String FMT_QC_TREE_FLAG_VISIT_XPATH = "//li[@title='%s']/ul/li/a[contains(text(),'%s')]/following::ins[1]";
 	// Use the line above to get the style of the flag
-	public static String QC_TREE_FLAG_VISIT_OK_STYLE = "background: url(\"js/themes/icon/ok16.png\") center center no-repeat rgb(131, 159, 196);";
+	public static String QC_TREE_FLAG_VISIT_OK_STYLE = "background: rgb(131, 159, 196) url(\"js/themes/icon/ok16.png\") no-repeat scroll center center;";
 	// Refused
 	// Use the line above to get the style of the flag
-	public static String QC_TREE_FLAG_VISIT_REFUSED_STYLE = "background: url(\"js/themes/icon/alert16.png\") center center no-repeat rgb(131, 159, 196);";
+	public static String QC_TREE_FLAG_VISIT_REFUSED_STYLE = "background: rgb(131, 159, 196) url(\"js/themes/icon/alert16.png\") no-repeat scroll center center;";
 	public static String QC_TREE_FLAG_VISIT_CORRECTIVEACTION_STYLE = QC_TREE_FLAG_VISIT_REFUSED_STYLE;
 
 	// Comment input field

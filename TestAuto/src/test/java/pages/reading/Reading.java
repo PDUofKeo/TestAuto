@@ -15,7 +15,7 @@ public class Reading extends SharedDriver {
 	private final static Logger LOGGER = Logger.getLogger(Reading.class.getName());
 	private static final String READER_FORM_VALIDATED_TITLE_XPATH = ".//*[@id='tab-reading']/table[2]/tbody/tr[1]/td";
 
-	private static final String READING_TREE_FLAG_VISIT_READ_STYLE = "background: url(\"js/themes/icon/ok16.png\") center center no-repeat rgb(131, 159, 196);";
+	private static final String READING_TREE_FLAG_VISIT_READ_STYLE = "background: rgb(131, 159, 196) url(\"js/themes/icon/ok16.png\") no-repeat scroll center center;";
 	private static final String FMT_READING_TREE_FLAG_VISIT_XPATH = "//li[@title='%s']/ul/li/a[contains(text(),'%s')]/following::ins[1]";
 
 	// Reader Tab

@@ -4,9 +4,7 @@ Feature: Check QC is refused
 @QCLogin 
 Scenario: Successful Login with Valid Credentials 
 	Given User is on Home Page 
-	When User enters UserName and Password 
-		| username  | password |
-		| QC1	| keosys |
+	When User enters UserName: "QC1" and Password: "keosys"  
 	Then User is connected 
 	
 @SelectController 

@@ -3,7 +3,7 @@ Feature: login/logout
 @QCLogin 
 Scenario: Successful Login with Valid Credentials 
 	Given User is on Home Page 
-	When User enters UserName: "0sysadmin" and Password: "keosys"  
+	When User enters UserName: "sysadmin" and Password: "keosys"  
 	Then User is connected 
 
 @UserLogout	
