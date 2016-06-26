@@ -29,7 +29,15 @@ public class SharedDriver {
 			// and configure the hub server to use this new profile
 			// java  -jar selenium-server-standalone-2.53.0.jar -Dwebdriver.firefox.profile=DefaultUser ....
 					
-			DesiredCapabilities cap = DesiredCapabilities.firefox();
+			DesiredCapabilities cap = DesiredCapabilities.chrome();
+			
+			if (cap.getBrowserName().equals("firefox")) {
+				cap.setCapability("jenkins.label", "Win8 & Firefox");
+			}
+			
+			if (cap.getBrowserName().equals("internet explorer")) {
+				cap.setCapability("jenkins.label", "Win8 & Internet Explorer");
+			}
 				
 			if (cap.getBrowserName().equals("chrome")) {
 				cap.setBrowserName(cap.getBrowserName());
