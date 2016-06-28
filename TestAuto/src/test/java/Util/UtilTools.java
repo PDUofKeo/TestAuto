@@ -26,6 +26,20 @@ public class UtilTools extends SharedDriver {
 	private final static String DEFAULT_FILTER_LABEL = "default";
 	private final static String ALL_FILTER_LABEL = "all";
 
+	public static boolean checkFieldIsDisplayed(String xpath) {
+		try {
+			WebDriverWait wait = new WebDriverWait(driver, TIMEOUT);
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpath)));
+		} catch (StaleElementReferenceException e) {
+			LOGGER.severe(String.format("timeout ('%d' s) reached for xpath='%s'", TIMEOUT, xpath));
+			Assert.fail();
+		}
+
+		LOGGER.info("The field: " + xpath + " is displayed");
+		return true;
+
+	}
+
 	public static boolean checkLabelIsDisplayed(String xpath, String label) {
 
 		try {
@@ -51,12 +65,12 @@ public class UtilTools extends SharedDriver {
 		}
 
 		if (elementLabel.contains(label)) {
-			LOGGER.info(String.format("Success: search String '%s' contains the following string '%s' for xpath='%s' ",
+			LOGGER.info(String.format("Success: search String '%s' == founded string '%s' for xpath='%s' ",
 					label, elementLabel, xpath));
 			return true;
 		} else {
 			LOGGER.severe(String.format(
-					"Failed: Search String '%s' does not contain the following string '%s' for xpath:'%s' ", label,
+					"Failed: Search String '%s' != founded string '%s' for xpath:'%s' ", label,
 					elementLabel, xpath));
 			return false;
 		}
@@ -97,23 +111,29 @@ public class UtilTools extends SharedDriver {
 	}
 
 	public static boolean setFilter(String value) {
+		return setSeletedValue(FILTER_XPATH, value);
+	}
+
+	
+	public static boolean setSeletedValue(String xpath, String value) {
 
 		long timeout = 2;
 		try {
 			WebDriverWait waitTreeLoading = new WebDriverWait(driver, timeout);
-			waitTreeLoading.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(FILTER_XPATH)));
+			waitTreeLoading.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpath)));
 
 		} catch (Exception e) {
-			LOGGER.severe(String.format("timeout ('%d' s) reached for xpath='%s'", timeout, FILTER_XPATH));
+			LOGGER.severe(String.format("timeout ('%d' s) reached for xpath='%s'", timeout, xpath));
 			return false;
 		}
-		WebElement mySelectElm = driver.findElement(By.xpath(FILTER_XPATH));
+		WebElement mySelectElm = driver.findElement(By.xpath(xpath));
 		Select mySelect = new Select(mySelectElm);
 		mySelect.selectByValue(value);
 
 		return true;
 	}
-
+	
+	
 	public static boolean waitTreeIsDisplayed() {
 		String loader = ".//*[@id='loader']";
 		long timeout = 2;
@@ -240,7 +260,7 @@ public class UtilTools extends SharedDriver {
 
 		while (attempts < 2) {
 			try {
-				result=driver.findElement(by);
+				result = driver.findElement(by);
 				LOGGER.info(String.format("retrying find click N°: '%d' for xpath: %s", attempts, by.toString()));
 				break;
 			} catch (StaleElementReferenceException e) {
@@ -276,13 +296,11 @@ public class UtilTools extends SharedDriver {
 			LOGGER.info("frame text : " + frame.getText());
 		}
 	}
-	
 
 	public static boolean checkImageIsDisplayed(String xpath, String ImgStyle) {
-		
-		
-		LOGGER.info("xpath : "+"'"+ xpath + "'");
-		LOGGER.info("ImgStyle : "+"'"+ ImgStyle + "'");
+
+		LOGGER.info("xpath : " + "'" + xpath + "'");
+		LOGGER.info("ImgStyle : " + "'" + ImgStyle + "'");
 
 		try {
 			WebDriverWait wait = new WebDriverWait(driver, TIMEOUT);
@@ -301,15 +319,16 @@ public class UtilTools extends SharedDriver {
 			LOGGER.severe(String.format("StaleElementReferenceException: '%s'", e.getMessage()));
 			return false;
 		}
-		
+
 		String img = WebElt.getAttribute("style").toString();
-						
+
 		if (img.equals(ImgStyle)) {
 			LOGGER.info(String.format("Success: The style '%s' of the image xpath '%s' is DISPLAYED", ImgStyle, xpath));
 			return true;
 		} else {
-			LOGGER.severe(
-					String.format("Failed: The searched style '%s' of the image xpath '%s' IS NOT DISPLAYED. The finded string is : '%s'", ImgStyle, xpath, img));
+			LOGGER.severe(String.format(
+					"Failed: The searched style '%s' of the image xpath '%s' IS NOT DISPLAYED. The finded string is : '%s'",
+					ImgStyle, xpath, img));
 			return false;
 		}
 	}

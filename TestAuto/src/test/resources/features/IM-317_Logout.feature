@@ -1,5 +1,8 @@
-Feature: login/logout
-@MAT4
+@IM-317
+Feature: logout
+# TEST JIRA : IM-317
+
+
 @QCLogin 
 Scenario: Successful Login with Valid Credentials 
 	Given User is on Home Page 

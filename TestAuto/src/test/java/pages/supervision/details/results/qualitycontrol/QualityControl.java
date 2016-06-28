@@ -3,7 +3,6 @@ package pages.supervision.details.results.qualitycontrol;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.junit.Assert;
@@ -55,6 +54,7 @@ public class QualityControl extends SharedDriver {
 		if (false == result) {
 			LOGGER.severe(String.format("The QC status for the Patient '%s' and the visit '%s' is not '%s'", patient,
 					visit, RESULTS_QC_STATUS_VALUE_ACCEPTED_LABEL));
+			Assert.fail();
 
 		} else {
 			LOGGER.info(String.format("The QC status for the Patient '%s' and the visit '%s' is '%s'", patient, visit,

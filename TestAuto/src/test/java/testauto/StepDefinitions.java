@@ -24,6 +24,9 @@ import pages.Investigation.Investigation;
 import pages.adjudication.Adjudication;
 import pages.common.Credentials;
 import pages.common.UserPage;
+import pages.login.ChangePassword;
+import pages.login.Login;
+import pages.login.LostPwd;
 import pages.qualitycontrol.QC;
 import pages.reading.Reading;
 import pages.supervision.Supervision;
@@ -65,6 +68,11 @@ public class StepDefinitions extends SharedDriver {
 		LOGGER.info("Open web driver");
 	}
 
+	@Given("^Login page is displayed$")
+	public void Login_page_is_displayed() throws Throwable {
+		Login.LoginPageDetails();
+	}
+
 	@When("^User enters UserName and Password$")
 	public void user_enters_UserName_and_Password(List<Credentials> usercredentials) throws Throwable {
 		for (Credentials credential : usercredentials) {
@@ -100,6 +108,7 @@ public class StepDefinitions extends SharedDriver {
 	@When("^User LogOut from the Application$")
 	public void user_LogOut_from_the_Application() throws Throwable {
 		UtilTools.clickOnButton(LOGOUT_BTN_XPATH);
+		Login.LoginPageDetails();
 		LOGGER.info("User is logged out");
 	}
 
@@ -114,16 +123,52 @@ public class StepDefinitions extends SharedDriver {
 		} catch (Exception e) {
 			LOGGER.info("Alert message may be not present");
 		}
-		
+
 		UserPage.CheckUserIsConnected();
-	
+
 		// TODO
 		// to check the user is connected check is name and firstName
 	}
 
+	@Given("^User is not connected$")
+	public void User_is_not_connected() throws Throwable {
+
+		if (Login.LoginPageDetails()) {
+			LOGGER.info("User is DISCONNECTED");
+
+		} else {
+			LOGGER.severe("User is CONNECTED");
+			Assert.fail();
+		}
+	}
+
+	@Then("^Remaining tryout 2$")
+	public void Remaining_tryout_2() throws Throwable {
+		if (Login.AttemptsRemaining2())
+			LOGGER.info("First tryout failed : reamining 2 tryout");
+	}
+
+	@Then("^Remaining tryout 1$")
+	public void Remaining_tryout_1() throws Throwable {
+		if (Login.AttemptsRemaining1())
+			LOGGER.info("Second  tryout failed : reamining 1 tryout");
+	}
+
+	@Then("^Count is deactivated$")
+	public void Count_is_deactivated() throws Throwable {
+		if (Login.CountIsDeactivated())
+			LOGGER.info("Count is deactivated");
+	}
+
+	@Then("^Your account is inactive$")
+	public void Your_Account_is_inactive() throws Throwable {
+		if (Login.YourAccountIsInactive())
+			LOGGER.info("Your account is inactive");
+	}
+
 	@Then("^User is disconnected$")
 	public void User_is_disconnected() throws Throwable {
-		UserPage.CheckUserIsDisconnected();
+		User_is_not_connected();
 	}
 
 	@Given("^Tree is displayed$")
@@ -504,19 +549,19 @@ public class StepDefinitions extends SharedDriver {
 	@Then("^User clicks on the controller tab$")
 	public static void Users_Cliks_on_the_controller_tab() throws Throwable {
 		getScenario().write(getScenario().getName() + ": " + Thread.currentThread().getStackTrace()[1].getMethodName());
-		UserPage.ClickOntheControllerTab();
+		UserPage.ClickOnTheControllerTab();
 	}
 
 	@Then("^User clicks on the reader tab$")
 	public static void User_clicks_on_the_reader_tab() throws Throwable {
 		getScenario().write(getScenario().getName() + ": " + Thread.currentThread().getStackTrace()[1].getMethodName());
-		UserPage.ClickOntheReaderTab();
+		UserPage.ClickOnTheReaderTab();
 	}
 
 	@Then("^User clicks on the Adjudicator tab$")
 	public static void User_clicks_on_the_Adjudicator_tab() throws Throwable {
 		getScenario().write(getScenario().getName() + ": " + Thread.currentThread().getStackTrace()[1].getMethodName());
-		UserPage.ClickOntheAdjudicatorTab();
+		UserPage.ClickOnTheAdjudicatorTab();
 	}
 
 	@Given("^Supervisor tab is displayed$")
@@ -527,7 +572,7 @@ public class StepDefinitions extends SharedDriver {
 	@Then("^User clicks on the Supervisor tab$")
 	public static void Users_Cliks_on_the_supervisor_tab() throws Throwable {
 		getScenario().write(getScenario().getName() + ": " + Thread.currentThread().getStackTrace()[1].getMethodName());
-		UserPage.ClickOntheSupervisorTab();
+		UserPage.ClickOnTheSupervisorTab();
 	}
 
 	@Then("^Controller screen is displayed$")
@@ -638,4 +683,95 @@ public class StepDefinitions extends SharedDriver {
 		StepDefinitions.scenario = scenario;
 	}
 
+	@When("^User clicks on lost password link$")
+	public static void User_cliks_on_lost_password_link() throws Throwable {
+		Login.UserCliksOnLostPassword();
+	}
+
+	@Then("^Lost password page is displayed$")
+	public static void Lost_password_page_is_displayed() throws Throwable {
+		LostPwd.LostPasswordPageDetail();
+	}
+
+	@When("^User enters an email: \"([^\"]*)\"$")
+	public static void User_enters_an_email(String Email) throws Throwable {
+		LostPwd.UserEntersEmail(Email);
+	}
+
+	@When("^User enters a login: \"([^\"]*)\"$")
+	public static void User_enters_a_login(String login) throws Throwable {
+		LostPwd.UserEntersLogin(login);
+	}
+
+	@When("^User clicks on Send button$")
+	public static void User_clicks_on_Send_button() throws Throwable {
+		LostPwd.UserClicksOnSendButton();
+	}
+
+	@When("^User clicks on Cancel button$")
+	public static void User_clicks_on_Cancel_button() throws Throwable {
+		LostPwd.UserClicksOnCancelButton();
+	}
+
+	@Then("Login alert message is displayed: \"([^\"]*)\"$")
+	public static void Login_alert_message_is_displayed(String msg) {
+		LostPwd.LoginAlertMsgIsDisplayed(msg);
+	}
+
+	@Then("Email alert message is displayed: \"([^\"]*)\"$")
+	public static void Email_alert_message_is_displayed(String msg) {
+		LostPwd.EmailAlertMsgIsDisplayed(msg);
+	}
+
+	@When("^User clicks on System tab$")
+	public static void User_clicks_on_system_tab() throws Throwable {
+		UserPage.ClickOnTheSystemTab();
+	}
+
+	@Then("System page is displayed")
+	public static void System_page_is_displayed() throws Throwable {
+		pages.system.System.SystemPageDetails();
+	}
+
+	@When("^User clicks on Personalization tab$")
+	public static void User_clicks_on_personalization_tab() throws Throwable {
+		pages.system.System.ClickOnThePersonalizationTab();
+	}
+
+	@Then("^Personalization page is displayed$")
+	public static void Personalization_page_is_displayed() throws Throwable {
+		pages.system.Personalization.PersonalizationPageDetails();
+	}
+
+	@When("^User set password expiration days to: \"([^\"]*)\"$")
+	public static void User_set_password_expiration_days_to(String nDays) {
+		pages.system.Personalization.SetPersonalizationDays(nDays);
+	}
+
+	@When("^Save the personalization modification")
+	public static void Save_the_personalization_modification() throws Throwable {
+		pages.system.Personalization.SavePersonalizationChanged();
+	}
+
+	@Then("^Personalizaton value is changed to: \"([^\"]*)\"$")
+	public static void Personalization_value_is_changed(String value) throws Throwable {
+		pages.system.Personalization.CheckPersonalizationValue(value);
+	}
+
+	@Then("^Change password page is displayed$")
+	public static void change_password_page_is_displayed() {
+		ChangePassword.DetailPage();
+	}
+
+	@Then("^User navigate to previous page$")
+	public static void user_navigate_previous_page() throws Throwable {
+		driver.navigate().back();
+	}
+	
+	
+	@When("^User enters OldPwd: \"([^\"]*)\" NewPwd: \"([^\"]*)\" ConfirmPwd: \"([^\"]*)\"$")
+	public static void user_change_password(String OldPwd, String NewPwd,  String ConfirmPwd) throws Throwable {
+		ChangePassword.SetNewPwd(OldPwd, NewPwd,ConfirmPwd );
+	}
+	
 }

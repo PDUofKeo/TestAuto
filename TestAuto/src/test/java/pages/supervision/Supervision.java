@@ -44,20 +44,26 @@ public class Supervision extends SharedDriver {
 
 	private final static Logger LOGGER = Logger.getLogger(Supervision.class.getName());
 
-	public static void SupervisorTableDetail() throws Throwable {
-
-		UtilTools.checkLabelIsDisplayed(SUPERVISOR_SUPERVISION_LINK_XPATH, SUPERVISOR_SUPERVISION_LINK_LABEL);
-		UtilTools.checkLabelIsDisplayed(SUPERVISOR_SUPERVISION_VISIT_SERIES_XPATH,
+	public static boolean SupervisorTableDetail() throws Throwable {
+		
+		boolean result = UtilTools.checkLabelIsDisplayed(SUPERVISOR_SUPERVISION_LINK_XPATH, SUPERVISOR_SUPERVISION_LINK_LABEL);
+		result = result & UtilTools.checkLabelIsDisplayed(SUPERVISOR_SUPERVISION_VISIT_SERIES_XPATH,
 				SUPERVISOR_SUPERVISION_VISIT_SERIES_LABEL);
-		UtilTools.checkLabelIsDisplayed(SUPERVISOR_PATIENT_TITLE_XPATH, SUPERVISOR_PATIENT_TITLE_LABEL);
-		UtilTools.checkLabelIsDisplayed(SUPERVISOR_VISIT_TITLE_XPATH, SUPERVISOR_VISIT_TITLE_LABEL);
-		UtilTools.checkLabelIsDisplayed(SUPERVISOR_UPLOAD_TITLE_XPATH, SUPERVISOR_UPLOAD_TITLE_LABEL);
+		result = result & UtilTools.checkLabelIsDisplayed(SUPERVISOR_PATIENT_TITLE_XPATH, SUPERVISOR_PATIENT_TITLE_LABEL);
+		result = result & UtilTools.checkLabelIsDisplayed(SUPERVISOR_VISIT_TITLE_XPATH, SUPERVISOR_VISIT_TITLE_LABEL);
+		result = result & UtilTools.checkLabelIsDisplayed(SUPERVISOR_UPLOAD_TITLE_XPATH, SUPERVISOR_UPLOAD_TITLE_LABEL);
 		
 		//LOGGER.info(String.format(" >>>>>>>>> STATUS '%s'", driver.findElement(By.xpath(SUPERVISOR_STATUS_TITLE_XPATH)).getText())); 
-		UtilTools.checkLabelIsDisplayed(SUPERVISOR_STATUS_TITLE_XPATH, SUPERVISOR_STATUS_TITLE_LABEL);
+		result = result & UtilTools.checkLabelIsDisplayed(SUPERVISOR_STATUS_TITLE_XPATH, SUPERVISOR_STATUS_TITLE_LABEL);
 		//LOGGER.info(String.format(" >>>>>>>>> DETAILS '%s'", driver.findElement(By.xpath(SUPERVISOR_DETAILS_TITLE_XPATH)).getText())); 
-		UtilTools.checkLabelIsDisplayed(SUPERVISOR_DETAILS_TITLE_XPATH, SUPERVISOR_DETAILS_TITLE_LABEL);
+		result = result & UtilTools.checkLabelIsDisplayed(SUPERVISOR_DETAILS_TITLE_XPATH, SUPERVISOR_DETAILS_TITLE_LABEL);
 		
+		if(!result){
+			LOGGER.severe("Failed - supervisor page is not correctly displayed");
+					Assert.fail();
+		}
+		
+		return result;
 	}
 
 	public static void SupervisorCliksOnTheFilterButton() throws Throwable {
